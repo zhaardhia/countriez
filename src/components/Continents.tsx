@@ -39,12 +39,6 @@ const Continents: FC = () => {
             </button>
           )
         })}
-        {/* <button className="px-5 py-4 bg-[#EEE3CB] hover:bg-[#e8e2d4] rounded-lg text-xl shadow-md">Asia</button>
-        <button className="px-5 py-4 bg-[#EEE3CB] hover:bg-[#e8e2d4] rounded-lg text-xl shadow-md">Oceania</button>
-        <button className="px-5 py-4 bg-[#EEE3CB] hover:bg-[#e8e2d4] rounded-lg text-xl shadow-md">America</button>
-        <button className="px-5 py-4 bg-[#EEE3CB] hover:bg-[#e8e2d4] rounded-lg text-xl shadow-md">Africa</button>
-        <button className="px-5 py-4 bg-[#EEE3CB] hover:bg-[#e8e2d4] rounded-lg text-xl shadow-md">Europe</button>
-        <button className="px-5 py-4 bg-[#EEE3CB] hover:bg-[#e8e2d4] rounded-lg text-xl shadow-md">Antartica</button> */}
       </div>
     </div>
   )

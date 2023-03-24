@@ -1,13 +1,14 @@
-import { useEffect, FC } from 'react'
+import { useState, FC } from 'react'
 import Layout from '../components/Layout'
 import { useQuery, useLazyQuery } from "@apollo/client";
 import { ALL_CONTINENTS } from '../services/queries'
 import Continents from '../components/Continents';
 import Countries from '../components/Countries';
+import ModalCountry from '../components/ModalCountry';
 
 const Home: FC = () => {
-
   const { data, loading, error } = useQuery(ALL_CONTINENTS)
+  const [modalActive, setModalActive] = useState<boolean>(false);
 
   console.log(data);
   return (
@@ -24,7 +25,8 @@ const Home: FC = () => {
         </div>
       </div>
       <Continents />
-      <Countries />
+      <Countries setModalActive={setModalActive} modalActive={modalActive} />
+      {modalActive && (<ModalCountry setModalActive={setModalActive} modalActive={modalActive} />)}
     </Layout>
   )
 }
