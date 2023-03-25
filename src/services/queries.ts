@@ -28,8 +28,8 @@ export const GET_ALL_COUNTRIES_BY_CONTINENT_CODE = gql`
 `;
 
 export const GET_COUNTRY_BY_CODE = gql`
-  query getCountryByCode($countryCode: String!) {
-    country(code: $countryCode) {
+  query getCountryByCode($code: ID!) {
+    country(code: $code) {
       code
       name
       capital
