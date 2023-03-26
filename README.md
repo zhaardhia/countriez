@@ -55,8 +55,9 @@ Still on develop. Haven't deploy it yet
 <!-- - `.github/` - ci / cd config
 - `.storybook` - storybook config
 - `cypress` - end to end testing scripts and other files -->
+- `src/animations` - TS file used for animation config.
 - `src/components` - UI/Layout components that are used globally throughout project.
-- `src/services` - TS files used for query GraphQL
-- `src/pages` - Pages Threap-App Website.
+- `src/services` - TS file used for query GraphQL
+- `src/pages` - Pages of countriez Website.
 - `src/stores` - State management store.
 - `src/public` - React public directory, used for storing static assets.

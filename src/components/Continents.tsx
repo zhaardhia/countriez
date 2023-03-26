@@ -3,6 +3,8 @@ import { useQuery, useLazyQuery } from "@apollo/client";
 import { ALL_CONTINENTS } from '../services/queries'
 import useStore from '../stores/selectedCountryStore';
 import { ClimbingBoxLoader } from "react-spinners";
+import { motion, useAnimation, Variants } from 'framer-motion'
+import { animateFromLeft, animateFromRight, animateFromAboveSlower, animateOpacity } from '../animations/animationFade'
 
 interface Continent {
   code: string,
@@ -42,7 +44,14 @@ const Continents: FC = () => {
       }
       {
         !loading && (
-          <div className="w-[80%] bg-[#B7C4CF] mx-auto rounded-lg my-10 text-[#967E76]">
+          <motion.div 
+            className="w-[80%] bg-[#B7C4CF] mx-auto rounded-lg my-10 text-[#967E76]"
+            initial={"offscreen"}
+            whileInView={"onscreen"}
+            viewport={{once:false}}
+            transition={{staggerChildren:0.5}}
+            variants={animateFromRight}
+          >
             <div className="flex w-[80%] mx-auto pt-10">
               <p className="text-3xl font-light">Choose Continents: {continentName}</p> 
             </div>
@@ -58,7 +67,7 @@ const Continents: FC = () => {
                 )
               })}
             </div>
-          </div>
+          </motion.div>
         )
       }
     </>

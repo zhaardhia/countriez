@@ -1,7 +1,8 @@
 import { FC } from 'react'
 import useStore from '../stores/selectedCountryStore';
 import { useSearchParams } from "react-router-dom";
-
+import { motion, useAnimation, Variants } from 'framer-motion'
+import { animateFromLeft, animateFromRight, animateFromAboveSlower, animateOpacity } from '../animations/animationFade'
 interface Country {
   code: string;
   emoji: string;
@@ -18,7 +19,14 @@ const Countries: FC<ModalType> = ({ setModalActive, modalActive }) => {
   const [searchParams, setSearchParams] = useSearchParams();
 
   return (
-    <div className="w-[80%] mx-auto rounded-lg my-20 text-[#967E76]">
+    <motion.div 
+      className="w-[80%] mx-auto rounded-lg my-20 text-[#967E76]"
+      initial={"offscreen"}
+      whileInView={"onscreen"}
+      viewport={{once:false}}
+      transition={{staggerChildren:0.5}}
+      variants={animateFromLeft}
+    >
       <p className="text-3xl font-light text-center">{continentName}</p>
       <div className="flex w-[80%] mx-auto">
         {/* <p className="text-3xl font-light">Choose Continents: ASIA</p>  */}
@@ -38,7 +46,7 @@ const Countries: FC<ModalType> = ({ setModalActive, modalActive }) => {
           )
         })}
       </div>
-    </div>
+    </motion.div>
   )
 }
 

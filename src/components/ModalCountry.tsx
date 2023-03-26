@@ -3,6 +3,8 @@ import { useLazyQuery } from "@apollo/client";
 import { GET_COUNTRY_BY_CODE } from '../services/queries'
 import { useSearchParams } from "react-router-dom";
 import ClimbingBoxLoader from "react-spinners/ClimbingBoxLoader";
+import { motion, useAnimation, Variants } from 'framer-motion'
+import { animateFromLeft, animateFromRight, animateFromAboveSlower, animateOpacity } from '../animations/animationFade'
 
 interface ModalType {
   modalActive: boolean;
@@ -74,7 +76,14 @@ const ModalCountry: FC<ModalType> = ({ setModalActive }) => {
     <>
       <div className="justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none">
         <div className="relative w-auto my-6 mx-auto w-fit">
-          <div className="border-0 rounded-lg shadow-lg relative bg-white flex flex-col w-[30rem] outline-none focus:outline-none h-fit p-10">
+          <motion.div 
+            className="border-0 rounded-lg shadow-lg relative bg-white flex flex-col w-[30rem] outline-none focus:outline-none h-fit p-10"
+            initial={"offscreen"}
+            whileInView={"onscreen"}
+            viewport={{once:false}}
+            transition={{staggerChildren:0.5}}
+            variants={animateFromRight}
+          >
             {
               loading && (
                 <div className="flex justify-center">
@@ -155,7 +164,7 @@ const ModalCountry: FC<ModalType> = ({ setModalActive }) => {
               )
             }
             
-          </div>
+          </motion.div>
         </div>
       </div>
       <div className="opacity-25 fixed inset-0 z-40 bg-black"></div>
