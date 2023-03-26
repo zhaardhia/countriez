@@ -1,7 +1,6 @@
 # countriez
 
-<!-- > Live on [countriez](https://threap-app.vercel.app/) -->
-> On Develop
+> Live on [countriez](https://countriez-web.vercel.app/)(On Develop)
 
 ### Stack used
 
@@ -47,8 +46,8 @@ npm run ci:test
 
 ### Deployment (CI / CD)
 
-<!-- I used [Vercel](https://vercel.com/) through [Github Action](https://github.com/features/actions) for CI / CD -->
-Still on develop. Haven't deploy it yet
+I used [Vercel](https://vercel.com/) through [Github Action](https://github.com/features/actions) for CI / CD
+
 
 ### Directory structure
 
