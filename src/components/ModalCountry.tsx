@@ -1,8 +1,8 @@
-import { FC, useEffect, useCallback } from "react";
+import { FC, useEffect, useCallback, CSSProperties } from "react";
 import { useLazyQuery } from "@apollo/client";
 import { GET_COUNTRY_BY_CODE } from '../services/queries'
 import { useSearchParams } from "react-router-dom";
-import useStore from '../stores/selectedCountryStore';
+import ClimbingBoxLoader from "react-spinners/ClimbingBoxLoader";
 
 interface ModalType {
   modalActive: boolean;
@@ -20,8 +20,14 @@ type StateObj = {
   name: string,
 }
 
+// const override: CSSProperties = {
+//   display: "block",
+//   margin: "0 auto",
+//   borderColor: "red",
+// };
+
 const ModalCountry: FC<ModalType> = ({ setModalActive }) => {
-  const [searchParams] = useSearchParams();
+  const [searchParams, setSearchParams] = useSearchParams();
   const countryQuery = searchParams.get("country")
   console.log(countryQuery)
 
@@ -52,74 +58,103 @@ const ModalCountry: FC<ModalType> = ({ setModalActive }) => {
   // ] = useLazyQuery(GET_COUNTRY_BY_CODE);
   console.log(data)
   // if (countryData) console.log(countryData)
+  const removeQueryParams = () => {
+    const param = searchParams.get('country');
+
+    if (param) {
+      // 👇️ delete each query param
+      searchParams.delete('country');
+
+      // 👇️ update state after
+      setSearchParams(searchParams);
+    }
+  };
+
   return (
     <>
       <div className="justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none">
         <div className="relative w-auto my-6 mx-auto w-fit">
           <div className="border-0 rounded-lg shadow-lg relative bg-white flex flex-col w-[30rem] outline-none focus:outline-none h-fit p-10">
-            <div className="flex flex-col gap-2">
-              <h1 className="text-center text-8xl font-bold">
-                {data?.country?.emoji}
-              </h1>
-              <div className="flex justify-center gap-2">
-                <p className="text-center text-2xl font-extralight">
-                  {data?.country?.name}
-                </p>
-                <p className="font-semibold text-2xl">({data?.country?.code})</p>
-              </div>
+            {
+              loading && (
+                <div className="flex justify-center">
+                  <ClimbingBoxLoader
+                    color="#D7C0AE"
+                    loading={loading}
+                    // cssOverride={override}
+                    size={15}
+                    aria-label="Loading Spinner"
+                    data-testid="loader"
+                  />
+                </div>
+                
+              )
+            }
+            {
+              !loading && (
+                <div className="flex flex-col gap-2">
+                  <h1 className="text-center text-8xl font-bold">
+                    {data?.country?.emoji}
+                  </h1>
+                  <div className="flex justify-center gap-2">
+                    <p className="text-center text-2xl font-extralight">
+                      {data?.country?.name}
+                    </p>
+                    <p className="font-semibold text-xl">({data?.country?.code})</p>
+                  </div>
 
-              <div className="grid grid-cols-3 gap-2 gap-y-5 my-5">
-                <div className="border-r-[0.2rem] flex flex-col text-center">
-                  <p className="text-slate-300">Capital</p>
-                  <p>{data?.country?.capital}</p>
+                  <div className="grid grid-cols-3 gap-2 gap-y-5 my-5">
+                    <div className="border-r-[0.2rem] flex flex-col text-center">
+                      <p className="text-slate-500">Capital</p>
+                      <p>{data?.country?.capital}</p>
+                    </div>
+                    <div className="border-r-[0.2rem] flex flex-col text-center">
+                      <p className="text-slate-500">Currency💰</p>
+                      <p>{data?.country?.currency}</p>
+                    </div>
+                    <div className="flex flex-col text-center">
+                      <p className="text-slate-500">Phone☎️</p>
+                      <p>+{data?.country?.phone}</p>
+                    </div>
+                  </div>
+                  <div>
+                    <p className="text-xl text-slate-500">Languages: </p>
+                    <div className="my-2 flex gap-1 flex-col">
+                      {data?.country?.languages.map((language: LanguageObj) => {
+                        return (
+                          <p>- {language.name} / {language.native} (<strong>{language.code}</strong>)</p>
+                        )
+                      })}
+                    </div>
+                    
+                  </div>
+                  {data?.country?.states.length > 0 && (
+                    <div className="h-[10rem] overflow-y-auto">
+                      <p className="text-xl text-slate-500">States: </p>
+                      <div className="my-2 flex gap-1 flex-col">
+                        {data?.country?.states.map((state: StateObj) => {
+                          return (
+                            <p>- {state.name} (<strong>{state.code}</strong>)</p>
+                          )
+                        })}
+                      </div>
+                      
+                    </div>
+                  )}
+                  
+                  <div className="flex justify-center mt-5">
+                    <button
+                      className="p-3 bg-red-500 hover:bg-red-300 rounded-lg text-white"
+                      onClick={() => {
+                        setModalActive(false)
+                        removeQueryParams()
+                      }} 
+                    >Close</button>
+                  </div>
                 </div>
-                <div className="border-r-[0.2rem] flex flex-col text-center">
-                  <p className="text-slate-300">Currency💰</p>
-                  <p>{data?.country?.currency}</p>
-                </div>
-                <div className="flex flex-col text-center">
-                  <p className="text-slate-300">Phone☎️</p>
-                  <p>+{data?.country?.phone}</p>
-                </div>
-                {/* <div className="border-r-[0.2rem] flex flex-col text-center">
-                  <p className="text-slate-300">Capital</p>
-                  <p>{data?.country?.capital}</p>
-                </div>
-                <div className="border-r-[0.2rem] flex flex-col text-center">
-                  <p className="text-slate-300">Capital</p>
-                  <p>{data?.country?.capital}</p>
-                </div>
-                <div className="flex flex-col text-center">
-                  <p className="text-slate-300">Capital</p>
-                  <p>{data?.country?.capital}</p>
-                </div> */}
-              </div>
-              <div>
-                <p>Languages: </p>
-                {data?.country?.languages.map((language: LanguageObj) => {
-                  return (
-                    <p>{language.name} / {language.native} (<strong>{language.code}</strong>)</p>
-                  )
-                })}
-              </div>
-              {data?.country?.states.length > 0 && (
-                <div className="h-[10rem] overflow-y-auto">
-                  <p>States: </p>
-                  {data?.country?.states.map((state: StateObj) => {
-                    return (
-                      <p>{state.name} (<strong>{state.code}</strong>)</p>
-                    )
-                  })}
-                </div>
-              )}
-              
-              <div className="flex justify-center ">
-                <button
-                  className="p-3 bg-red-500 hover:bg-red-300 rounded-lg text-white"
-                  onClick={() => setModalActive(false)}
-                >Close</button>
-              </div>
-            </div>
+              )
+            }
+            
           </div>
         </div>
       </div>

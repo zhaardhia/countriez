@@ -3,7 +3,9 @@ import Layout from '../components/Layout'
 
 const Quiz: FC = () => {
   return (
-    <Layout>Quiz</Layout>
+    <Layout>
+      <p className="text-center text-2xl my-10 text-[#967E76]">coming soon</p>
+    </Layout>
   )
 }
 
