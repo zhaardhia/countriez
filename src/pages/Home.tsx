@@ -5,6 +5,7 @@ import { ALL_CONTINENTS } from '../services/queries'
 import Continents from '../components/Continents';
 import Countries from '../components/Countries';
 import ModalCountry from '../components/ModalCountry';
+import { Link } from 'react-router-dom'
 
 const Home: FC = () => {
   const { data, loading, error } = useQuery(ALL_CONTINENTS)
@@ -21,7 +22,7 @@ const Home: FC = () => {
       <div className="w-[80%] mx-auto flex justify-end">
         <div className="flex items-center gap-2 text-[#967E76]">
           <p className="text-xl">Bored? Let's</p>
-          <button className="text-xl px-3 py-2 bg-[#B7C4CF] hover:bg-[#a3bacc] shadow-lg rounded-lg">Take a Quiz</button>
+          <Link to="/quiz" className="text-xl px-3 py-2 bg-[#B7C4CF] hover:bg-[#a3bacc] shadow-lg rounded-lg">Take a Quiz</Link>
         </div>
       </div>
       <Continents />

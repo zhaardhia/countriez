@@ -9,6 +9,17 @@ interface ModalType {
   setModalActive: (modalActive: boolean) => void;
 }
 
+type LanguageObj = {
+  code: string,
+  name: string,
+  native: string
+}
+
+type StateObj = {
+  code: string,
+  name: string,
+}
+
 const ModalCountry: FC<ModalType> = ({ setModalActive }) => {
   const [searchParams] = useSearchParams();
   const countryQuery = searchParams.get("country")
@@ -70,7 +81,7 @@ const ModalCountry: FC<ModalType> = ({ setModalActive }) => {
                   <p className="text-slate-300">Phone☎️</p>
                   <p>+{data?.country?.phone}</p>
                 </div>
-                <div className="border-r-[0.2rem] flex flex-col text-center">
+                {/* <div className="border-r-[0.2rem] flex flex-col text-center">
                   <p className="text-slate-300">Capital</p>
                   <p>{data?.country?.capital}</p>
                 </div>
@@ -81,8 +92,27 @@ const ModalCountry: FC<ModalType> = ({ setModalActive }) => {
                 <div className="flex flex-col text-center">
                   <p className="text-slate-300">Capital</p>
                   <p>{data?.country?.capital}</p>
-                </div>
+                </div> */}
               </div>
+              <div>
+                <p>Languages: </p>
+                {data?.country?.languages.map((language: LanguageObj) => {
+                  return (
+                    <p>{language.name} / {language.native} (<strong>{language.code}</strong>)</p>
+                  )
+                })}
+              </div>
+              {data?.country?.states.length > 0 && (
+                <div className="h-[10rem] overflow-y-auto">
+                  <p>States: </p>
+                  {data?.country?.states.map((state: StateObj) => {
+                    return (
+                      <p>{state.name} (<strong>{state.code}</strong>)</p>
+                    )
+                  })}
+                </div>
+              )}
+              
               <div className="flex justify-center ">
                 <button
                   className="p-3 bg-red-500 hover:bg-red-300 rounded-lg text-white"
